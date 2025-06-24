@@ -83,7 +83,6 @@ class Bird:
             self.img = __class__.imgs[tuple(sum_mv)]
         screen.blit(self.img, self.rct)
 
-
 class Beam:
     """
     こうかとんが放つビームに関するクラス
@@ -165,7 +164,8 @@ def main():
                 pg.display.update()
                 time.sleep(1)
                 return
-        
+            
+                
         if bomb is not None:
             if beam is not None:
                 if beam.rct.colliderect(bomb.rct):
