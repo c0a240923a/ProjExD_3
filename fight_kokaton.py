@@ -210,8 +210,7 @@ def main():
                 pg.display.update()
                 time.sleep(1)
                 return
-            
-                
+                   
         for i, bomb in enumerate(bombs):
             if beam is not None:
                 if beam.rct.colliderect(bomb.rct):
