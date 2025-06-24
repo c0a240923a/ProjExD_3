@@ -171,6 +171,7 @@ class Explosion:
                 #clock.tick(50)
 
 
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -178,7 +179,7 @@ def main():
     bird = Bird((300, 200))
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUMS_OF_BOMBS)]
     beam = None  # ゲーム初期化時にはビームは存在しない
-    beams = []
+    #beams = []
     explosions = []
     scores = 0
     score = Score(scores)
@@ -190,7 +191,7 @@ def main():
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 # スペースキー押下でBeamクラスのインスタンス生成
-                beams.append(Beam(bird))            
+                beam = Beam(bird)         
         screen.blit(bg_img, [0, 0])
         
         for bomb in bombs:
@@ -206,34 +207,29 @@ def main():
             
                 
         for i, bomb in enumerate(bombs):
-            for j, beam in enumerate(beams):
-                if bomb.rct.colliderect(beam.rct):
+            
+            if beam is not None:
+                if beam.rct.colliderect(bomb.rct):
                     explosion = Explosion(bomb)
                     explosions.append(explosion)
-                    beams[j] = None
+
+                    beam = None
                     bombs[i] = None
                     scores += 1
                     bird.change_img(6, screen)
         bombs = [bomb for bomb in bombs if bomb is not None]
         #beams = [beam for beam in beams if beam is not None]
-        explosions = [explosion for explosion in explosions if explosion.life > 0]
         score.update(scores, screen)
-
-
-        for i, beam in enumerate(beams):
-            if beam.rct.centerx >= WIDTH:
-                beams[i] = None
-
-        beams = [beam for beam in beams if beam is not None]
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
-        for beam in beams:
+        if beam is not None:
             beam.update(screen)
         for bomb in bombs:  
             bomb.update(screen)
         for explosion in explosions:
             explosion.update(screen, clock)
+
         pg.display.update()
         tmr += 1
         clock.tick(50)
