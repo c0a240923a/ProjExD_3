@@ -207,12 +207,10 @@ def main():
             
                 
         for i, bomb in enumerate(bombs):
-            
             if beam is not None:
                 if beam.rct.colliderect(bomb.rct):
                     explosion = Explosion(bomb)
                     explosions.append(explosion)
-
                     beam = None
                     bombs[i] = None
                     scores += 1
@@ -220,7 +218,6 @@ def main():
         bombs = [bomb for bomb in bombs if bomb is not None]
         #beams = [beam for beam in beams if beam is not None]
         score.update(scores, screen)
-
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         if beam is not None:
@@ -229,7 +226,6 @@ def main():
             bomb.update(screen)
         for explosion in explosions:
             explosion.update(screen, clock)
-
         pg.display.update()
         tmr += 1
         clock.tick(50)
